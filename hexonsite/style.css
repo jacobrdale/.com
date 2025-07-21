@@ -1,0 +1,44 @@
+body {
+  margin: 0;
+  background: #0d0d0d;
+  color: #00ffff;
+  font-family: 'Courier New', Courier, monospace;
+  overflow-x: hidden;
+}
+
+.container {
+  padding: 3rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.terminal {
+  background: #000;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #00ffff44;
+}
+
+.line {
+  display: block;
+  white-space: pre-wrap;
+}
+
+.prompt::before {
+  content: "visitor@hexon404.com:~$ ";
+  color: #0f0;
+}
+
+a {
+  color: #00ffff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
