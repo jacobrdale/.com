@@ -1,6 +1,8 @@
 const terminal = document.getElementById('terminal');
 
 const lines = [
+  { prompt: true, text: 'behexon' },
+  { prompt: false, text: 'Done!, You are now Hexon (me@hexon404.com)' },
   { prompt: true, text: 'whoami' },
   { prompt: false, type: 'text', text: "I'm Hexon — a creative dev + builder of weird and cool stuff." },
   { prompt: true, text: 'links' },
