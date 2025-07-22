@@ -25,7 +25,7 @@ body {
 }
 
 .prompt::before {
-  content: "visitor@hexon404.com:~$ ";
+  content: "visitor@site.local:~$ ";
   color: #0f0;
 }
 
