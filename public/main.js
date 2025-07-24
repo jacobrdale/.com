@@ -1,26 +1,21 @@
 const terminal = document.getElementById('terminal');
 
 const lines = [
-  { prompt: true, text: 'behexon' },
-  { prompt: false, text: 'Done!, You are now Hexon (me@hexon404.com)' },
   { prompt: true, text: 'whoami' },
   { prompt: false, type: 'text', text: "I'm Hexon — a creative dev + builder of weird and cool stuff." },
   { prompt: true, text: 'links' },
   { prompt: false, type: 'html', html: '<a href="https://github.com/jacobrdale" target="_blank">GitHub</a>' },
   { prompt: false, type: 'html', html: '<a href="https://steamcommunity.com/id/itsiJakeYT" target="_blank">Steam</a>' },
   { prompt: true, text: 'languages' },
-  { prompt: false, type: 'html', html: `
-    <ul>
-      <li>JavaScript (Node, etc)</li>
-      <li>HTML/CSS</li>
-      <li>Python</li>
-      <li>Bash</li>
-      <li>Java (for Minecraft mods)</li>
-      <li>C (basics)</li>
-      <li>Custom scripting formats (.jplus)</li>
-      <li>Plaintext (yes)</li>
-      <li>GoDot</li>
-    </ul>` },
+  { prompt: false, text: 'JavaScript (Node, Express, NexaJS, etc)' ]},
+  { prompt: false, text: 'HTML/CSS' },
+  { prompt: false, text: 'Python' },
+  { prompt: false, text: 'Bash'},
+  { prompt: false, text: 'Java (for Minecraft mods)'},
+  { prompt: false, text: 'C (Basics)'},
+  { prompt: false, text: 'Custom scripting formats (.jplus)'},
+  { prompt: false, text: 'Plaintext (yes)'},
+  { prompt: false, text: 'GoDot'},
   { prompt: true, text: 'github' },
   { prompt: false, type: 'html', html: `
     <a href="https://github.com/jacobrdale" target="_blank">
