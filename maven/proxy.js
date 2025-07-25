@@ -6,10 +6,10 @@ const app = express();
 const OWNER = 'mavenpm';
 const REPO = 'maven.hexon404.com';
 
-// Optional: set your GitHub Personal Access Token here to avoid rate limiting
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || ''; 
+// Use this if you have a GitHub token to avoid API rate limits
+// Otherwise fallback to unauthenticated requests (limited)
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
 
-// Helper: GitHub API headers
 const headers = GITHUB_TOKEN
   ? { Authorization: `token ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.v3.raw' }
   : { Accept: 'application/vnd.github.v3.raw' };
@@ -23,7 +23,7 @@ app.get('/*', async (req, res) => {
     const response = await fetch(apiUrl, { headers });
 
     if (response.status === 404) {
-      return res.status(404).send('Not Found');
+      return res.status(404).send('Not Found, this is probably because hexon has a 404 Brain Not Found');
     }
     if (!response.ok) {
       return res.status(response.status).send('GitHub API Error');
@@ -32,9 +32,7 @@ app.get('/*', async (req, res) => {
     const data = await response.json();
 
     if (Array.isArray(data)) {
-      // Directory listing
       let html = `<h1>Index of /${path}</h1><ul>`;
-      // Add a link to parent directory unless at root
       if (path) {
         const parentPath = path.split('/').slice(0, -1).join('/');
         html += `<li><a href="/${parentPath}">../</a></li>`;
@@ -47,20 +45,12 @@ app.get('/*', async (req, res) => {
       res.send(html);
 
     } else if (data.type === 'file') {
-      // It's a file, stream raw content from GitHub
-
-      // The API already returns raw content if Accept header is set to 'application/vnd.github.v3.raw'
-      // So we can fetch the raw URL directly and pipe it
-
-      // Note: data.download_url is the raw file URL
       const fileResp = await fetch(data.download_url);
       if (!fileResp.ok) return res.status(fileResp.status).send('Error fetching file');
 
-      // Set content-type from GitHub or guess by extension
       const contentType = fileResp.headers.get('content-type') || 'application/octet-stream';
       res.set('Content-Type', contentType);
 
-      // Stream the file to response
       fileResp.body.pipe(res);
 
     } else {
