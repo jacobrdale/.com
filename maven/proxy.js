@@ -8,7 +8,7 @@ const REPO = 'maven.hexon404.com';
 
 // Use this if you have a GitHub token to avoid API rate limits
 // Otherwise fallback to unauthenticated requests (limited)
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
+const GITHUB_TOKEN = process.env.GH_TOKEN || '';
 
 const headers = GITHUB_TOKEN
   ? { Authorization: `token ${GITHUB_TOKEN}`, Accept: 'application/vnd.github.v3.raw' }
