@@ -20,7 +20,10 @@ const lines = [
   { prompt: false, type: 'html', html: `
     <a href="https://github.com/jacobrdale" target="_blank">
       <img src="https://github-readme-stats.vercel.app/api?username=jacobrdale&show_icons=true" alt="Hexon's Github Stats">
-    </a>` }
+    </a>` },
+  { prompt: true, text: 'projects' },
+  { prompt: false, type: 'html', html: `
+    <a href="./projects" target="_blank" rel="noopener noreferrer">My Projects</a>` },
 ];
 
 let currentLine = 0;
