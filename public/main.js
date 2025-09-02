@@ -1,73 +1,118 @@
 const terminal = document.getElementById('terminal');
 
-const lines = [
-  { prompt: true, text: 'whoami' },
-  { prompt: false, type: 'text', text: "I'm Hexon — a creative dev + builder of weird and cool stuff." },
-  { prompt: true, text: 'links' },
-  { prompt: false, type: 'html', html: '<a href="https://github.com/jacobrdale" target="_blank">GitHub</a>' },
-  { prompt: false, type: 'html', html: '<a href="https://steamcommunity.com/id/itsiJakeYT" target="_blank">Steam</a>' },
-  { prompt: true, text: 'languages' },
-  { prompt: false, type: 'text', text: 'JavaScript (Node, Express, NexaJS, etc)' },
-  { prompt: false, type: 'text', text: 'HTML/CSS' },
-  { prompt: false, type: 'text', text: 'Python' },
-  { prompt: false, type: 'text', text: 'Bash'},
-  { prompt: false, type: 'text', text: 'Java (for Minecraft mods)'},
-  { prompt: false, type: 'text', text: 'C (Basics)'},
-  { prompt: false, type: 'text', text: 'Custom scripting formats (.jplus)'},
-  { prompt: false, type: 'text', text: 'Plaintext (yes)'},
-  { prompt: false, type: 'text', text: 'GoDot'},
-  { prompt: true, text: 'github' },
-  { prompt: false, type: 'html', html: `
-    <a href="https://github.com/jacobrdale" target="_blank">
-      <img src="https://github-readme-stats.vercel.app/api?username=jacobrdale&show_icons=true" alt="Hexon's Github Stats">
-    </a>` },
-  { prompt: true, text: 'projects' },
-  { prompt: false, type: 'html', html: `
-    <a href="./projects" target="_blank" rel="noopener noreferrer">My Projects</a>` },
-];
-
-let currentLine = 0;
-
-function typeLine(line, i = 0) {
-  const div = document.createElement('p');
-  div.classList.add('line');
-  if (line.prompt) div.classList.add('prompt');
-  terminal.appendChild(div);
-
-  if (line.type === 'html') {
-    // Simulate typing effect for HTML line label, then insert full HTML
-    let fakeText = '';
-    function typeChar() {
-      if (i < '[rendering html]'.length) {
-        fakeText += '[rendering html]'.charAt(i++);
-        div.textContent = fakeText;
-        setTimeout(typeChar, 15);
-      } else {
-        div.innerHTML = line.html;
-        currentLine++;
-        setTimeout(typeNextLine, 300);
-      }
+// Commands registry
+const commands = {
+  whoami: {
+    description: "Show information about Me",
+    run: () => "I'm Hexon — a creative dev + builder of weird and cool stuff."
+  },
+  "gui": {
+    description: "Show a GUI version of this website",
+    run: () => `<a href="./gui.html" target="_blank" rel="noopener noreferrer">Open GUI</a>`
+  },
+  links: {
+    description: "Show links to profiles",
+    run: () => `
+      <a href="https://github.com/jacobrdale" target="_blank">GitHub</a><br>
+      <a href="https://steamcommunity.com/id/itsiJakeYT" target="_blank">Steam</a>
+      <a href="https://x.com/stetupyt" target="_blank">X</a>
+    `
+  },
+  languages: {
+    description: "List known programming languages",
+    run: () => `
+      JavaScript (Node, Express, NexaJS, etc)<br>
+      HTML/CSS<br>
+      Python<br>
+      Bash<br>
+      Java (for Minecraft mods)<br>
+      C (Basics)<br>
+      Custom scripting formats (.jplus)<br>
+      Plaintext (yes)<br>
+      GoDot
+    `
+  },
+  github: {
+    description: "Show GitHub stats",
+    run: () => `
+      <a href="https://github.com/jacobrdale" target="_blank">
+        <img src="https://github-readme-stats.vercel.app/api?username=jacobrdale&show_icons=true&theme=radical" alt="Hexon's Github Stats">
+      </a>
+    `
+  },
+  help: {
+    description: "Show available commands",
+    run: () => {
+      return Object.entries(commands)
+        .map(([cmd, { description }]) => `${cmd} — ${description}`)
+        .join('<br>');
     }
-    typeChar();
+  },
+  clear: {
+    description: "Clear the terminal",
+    run: () => {
+      terminal.innerHTML = "";
+      return "";
+    }
+  }
+};
+
+// Create new input line
+function newPrompt() {
+  const line = document.createElement("div");
+  line.classList.add("line");
+
+  const label = document.createElement("span");
+  label.textContent = "visitor@site.local ~$ ";
+  label.style.color = "#0f0";
+
+  const input = document.createElement("input");
+  input.type = "text";
+  input.classList.add("terminal-input");
+
+  line.appendChild(label);
+  line.appendChild(input);
+  terminal.appendChild(line);
+
+  input.focus();
+
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      handleCommand(input.value);
+      input.disabled = true; // lock previous command
+      input.classList.remove("terminal-input");
+    }
+  });
+
+  // auto-scroll down
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function handleCommand(input) {
+  const command = input.trim();
+  if (command === "") {
+    newPrompt();
+    return;
+  }
+
+  let output;
+  if (commands[command]) {
+    output = commands[command].run();
   } else {
-    function typeChar() {
-      if (i < line.text.length) {
-        div.textContent += line.text[i++];
-        setTimeout(typeChar, 15);
-      } else {
-        currentLine++;
-        setTimeout(typeNextLine, 300);
-      }
-    }
-    typeChar();
+    output = `hecmd: ${command}: command not found`;
+  }
+
+  if (output) {
+    const outLine = document.createElement("div");
+    outLine.classList.add("line");
+    outLine.innerHTML = output;
+    terminal.appendChild(outLine);
+  }
+
+  if (command !== "clear") {
+    newPrompt();
   }
 }
 
-function typeNextLine() {
-  if (currentLine < lines.length) {
-    typeLine(lines[currentLine]);
-  }
-}
-
-// Start typing
-typeNextLine();
+// Init terminal
+newPrompt();
