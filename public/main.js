@@ -15,7 +15,6 @@ const commands = {
     run: () => `
       <a href="https://github.com/jacobrdale" target="_blank">GitHub</a><br>
       <a href="https://steamcommunity.com/id/itsiJakeYT" target="_blank">Steam</a>
-      <a href="https://x.com/stetupyt" target="_blank">X</a>
     `
   },
   languages: {
