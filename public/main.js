@@ -35,7 +35,7 @@ const commands = {
     description: "Show GitHub stats",
     run: () => `
       <a href="https://github.com/jacobrdale" target="_blank">
-        <img src="https://github-readme-stats.vercel.app/api?username=jacobrdale&show_icons=true&theme=radical" alt="Hexon's Github Stats">
+        <img src="https://github-readme-stats-one-self-37.vercel.app/api?username=jacobrdale&show_icons=true&theme=radical" alt="Hexon's Github Stats">
       </a>
     `
   },
