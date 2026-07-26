@@ -62,7 +62,7 @@ function newPrompt() {
   line.classList.add("line");
 
   const label = document.createElement("span");
-  label.textContent = "visitor@site.local ~$ ";
+  label.textContent = "visitor@hijake.xyz ~$ ";
   label.style.color = "#0f0";
 
   const input = document.createElement("input");
